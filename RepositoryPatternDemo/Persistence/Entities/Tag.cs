@@ -41,6 +41,8 @@ internal class Tag : IEntity, IComparable<Tag>
 
     private Dictionary<string, List<string>> Errors { get; set; } = new();
 
+    private Tag() { }
+
     public Tag(Guid? id, string slug, string name, string description)
     {
         Id = id;

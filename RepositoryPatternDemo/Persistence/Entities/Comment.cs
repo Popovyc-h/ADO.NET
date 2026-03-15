@@ -64,6 +64,8 @@ internal class Comment : IEntity, IComparable<Comment>
 
     private Dictionary<string, List<string>> Errors { get; set; } = new();
 
+    private Comment() { }
+
     public Comment(Guid? id, User user, Post post, string body, DateTime createdAt, DateTime updatedAt)
     {
         Id = id;

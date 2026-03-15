@@ -99,6 +99,8 @@ internal class Post : IEntity, IComparable<Post>
 
     private Dictionary<string, List<string>> Errors { get; set; } = new();
 
+    private Post() { }
+
     public Post(Guid? id, User user, string slug, string title, string body, string? image, DateTime? publishedAt, DateTime createdAt, DateTime updatedAt)
     {
         Id = id;

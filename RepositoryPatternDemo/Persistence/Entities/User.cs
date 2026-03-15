@@ -75,6 +75,8 @@ internal class User : IEntity, IComparable<User>
 
     private Dictionary<string, List<string>> Errors { get; set; } = new();
 
+    private User() { }
+
     public User(
         Guid id,
        string name,
