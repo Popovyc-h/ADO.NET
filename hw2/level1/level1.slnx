@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="../level2/level2.csproj" />
+  <Project Path="../level3/level3.csproj" Id="eb896144-e740-480c-9b05-82f5f955c88b" />
+  <Project Path="level1.csproj" />
+</Solution>
