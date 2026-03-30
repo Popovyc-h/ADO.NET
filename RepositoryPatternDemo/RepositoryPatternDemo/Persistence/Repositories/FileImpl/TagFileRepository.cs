@@ -6,7 +6,13 @@ namespace RepositoryPatternDemo.Persistence.Repositories.FileImpl;
 
 internal class TagFileRepository : GenericFileRepository<Tag>, ITagRepository
 {
-    public TagFileRepository() : base(Path.Combine("Data", "tags.txt")) { }
+    private readonly PostFileRepository _postFileRepository;
+
+    public TagFileRepository(PostFileRepository postFileRepository) : 
+        base(Path.Combine("Data", "tags.txt")) 
+    {
+        this._postFileRepository = postFileRepository;
+    }
 
     public Tag? GetBySlug(string slug)
     {
@@ -15,7 +21,7 @@ internal class TagFileRepository : GenericFileRepository<Tag>, ITagRepository
 
     public List<Post> GetPosts(Tag tag)
     {
-        throw new NotImplementedException();
+        return _postFileRepository.GetAll().Where(p => p.Tags.Contains(tag)).ToList();
     }
 
     protected override Tag DeserializeEntity(string line)
