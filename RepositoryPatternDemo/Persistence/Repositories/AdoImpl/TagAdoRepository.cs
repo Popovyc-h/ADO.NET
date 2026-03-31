@@ -30,26 +30,4 @@ internal class TagAdoRepository :
 
         return reader.Read() ? Map(reader) : default;
     }
-
-    public List<Post> GetPosts(Tag tag)
-    {
-        string query = $"SELECT * FROM Posts AS P JOIN PostTag AS PT ON P.Id = PT.PostId WHERE PT.TagId = @TagId";
-
-        using var connection = ConnectionManager.GetConnection();
-        connection.Open();
-
-        var command = connection.CreateCommand();
-        command.CommandText = query;
-        var tagIdParameter = command.CreateParameter();
-        tagIdParameter.ParameterName = "@TagId";
-        tagIdParameter.Value = tag.Id;
-        command.Parameters.Add(tagIdParameter);
-
-        var items = new List<Post>();
-        using var reader = command.ExecuteReader();
-        while (reader.Read())
-            items.Add(Map(reader));
-
-        return items;
-    }
 }
