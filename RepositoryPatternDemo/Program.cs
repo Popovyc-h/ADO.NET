@@ -4,11 +4,16 @@ using RepositoryPatternDemo.Persistence.Entities.Comparators;
 using RepositoryPatternDemo.Persistence.Exceptions;
 using RepositoryPatternDemo.Persistence.Repositories;
 using RepositoryPatternDemo.Persistence.Repositories.AdoImpl;
+using RepositoryPatternDemo.Persistence.Repositories.Contracts;
 using RepositoryPatternDemo.Persistence.Repositories.Impl;
 using System.Configuration;
 
 namespace RepositoryPatternDemo;
-
+/*
+ Відповіді на запитання:
+1. використання рефлексії вирішує таку проблему як дублювання коду якби не рефлексія нам би довилося писати SQL для кожного класу це все робиться автоматично рефлексійно
+2. 
+ */
 internal class Program
 {
     static void Main(string[] args)
@@ -18,25 +23,40 @@ internal class Program
         string providerName = connectionStringSettings.ProviderName;
         var connectionManager = new ConnectionManager(connectionString, providerName, SqliteFactory.Instance);
 
-        var userRepository = new UserAdoRepository(connectionManager);
+        IUserRepository userRepository = new UserFileRepository();
 
-        //InsertTest(userRepository);
+        IPostRepository postRepository = new PostAdoRepository(connectionManager);
 
-        /*List<User> users = (List<User>)userRepository.GetAll();
+
+        InsertTest(userRepository);
+
+        List<User> users = (List<User>)userRepository.GetAll();
         users.Sort(new UserCompererByCreatedAt());
         foreach (var user in users)
         {
             Console.WriteLine(user);
-        }*/
+        }
 
         //userRepository.Remove(Guid.Parse("26200D4B-8631-4CE6-8AED-2FF0D203B53D"));
         //Console.WriteLine(user);
 
         //userRepository.Add(new User(Guid.Parse("0EC31953-BF79-4C3A-9B4F-7D6141E43D5F"), "Bob2", "bob2@example.com", "password2", null, DateTime.Now, DateTime.Now));
+ /*       Console.WriteLine();
+        var user1 = userRepository.GetAll().First();
+        user1.Email = "updated@example.com";
+        userRepository.Add(user1);
 
+        var userToDelete = userRepository.GetAll().First(u => u.Email == "updated@example.com");
+        userRepository.Remove(userToDelete);
+
+        Console.WriteLine();
+        foreach (var user in users)
+        {
+            Console.WriteLine(user);
+        }*/
     }
 
-    private static void InsertTest(UserAdoRepository userRepository)
+    private static void InsertTest(IUserRepository userRepository)
     {
         var random = new Random();
         DateTime GetRandomDate()
@@ -97,7 +117,7 @@ internal class Program
             Console.WriteLine(user);
         }
     }
-
+        
     private static void TestFind(UserFileRepository userRepository)
     {
         User? user = userRepository.Find(u => u.Password == "password3");
